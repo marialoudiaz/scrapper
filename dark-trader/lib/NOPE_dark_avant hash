@@ -1,0 +1,87 @@
+require 'nokogiri'
+require 'open-uri'
+require 'money'
+require 'xpath'
+
+#when the page is online - use open-uri
+page = Nokogiri::HTML(URI.open("https://coinmarketcap.com/all/views/all/"))
+puts page.class
+
+# je crée mes array et hash en amont
+array_name = Array.new
+array_price = Array.new
+hash_sortie = Hash.new
+
+
+#j'extraie les données du tableau (noms, prix, etc)
+titre = page.xpath('//title').text
+puts page.xpath('//*[@id="__next"]/div[1]/div[2]/div/div[1]/div/div[2]/div[3]/div/table/tbody').text
+
+
+# jextraie les noms : extraie chaque nom et les puts un a un
+puts "Voici la liste des noms scrappés"
+nom_crypto = page.xpath('//tr//td[3]/div').each do |name|
+  puts name.text
+end
+print "Voici la quantité de monnaies trouvées : "
+puts  nom_crypto.length
+
+#jextraie les prix : xpath definit deux trucs et les puts : avec length = le nb delements dans l'array et avec each "price_cypto" soit ce que le xpath designe
+puts "Voici la liste des prix scrappés"
+page.xpath('//tr//td[5]/div/a/span').length
+price_crypto = page.xpath('//tr//td[5]/div/a/span').each do |price|
+  puts price.text
+end
+print "Voici la quantité de prix trouvées : "
+puts price_crypto.length
+
+
+#crypto = page.xpath('//table//tr//td[3]').map{|devise|devise.content}
+#//*[@id="__next"]/div[1]/div[2]/div/div[1]/div
+#/*[@id="mw-content-text"]/div[1]/table[21]/tbody
+
+#cryptoname=page.xpath('//tr//td[3]')
+#cryptovalue=page.xpath('//tr//td[5]')
+
+#def currencies_names(hash)
+  #hash.inject([]) do |array, (id, attributes)|
+    #priority = attributes[:priority]
+    #if priority && priority
+
+#cryptoname=page.xpath('//tr//td[3]')
+
+
+#crypto_name_array = [{"name" => "price"}]
+#return result
+#puts crypto_name_array
+# price : float
+
+#crypto_name_array.each do |name, price|
+#  puts crypto_name_array.text
+# end
+  # key = :name
+  # value = { 'price' }
+
+
+  # Extraire les éléments HTML que tu veux scrapper en 
+# --> utilisant leur XPath
+#--> les stockant dans un array (ex : all_emails_links) avec all_emails_links = page.xpath('/mettre_ici_le_XPath')
+# >>> all_emails_links = array d'éléments HTML.
+
+# Fetch and parse HTML document
+#doc = Nokogiri::HTML(URI.open('https://nokogiri.org/tutorials/installing_nokogiri.html'))
+
+# Search for nodes by css
+#doc.css('nav ul.menu li a', 'article h2').each do |link|
+#  puts link.content
+#end
+
+# Search for nodes by xpath
+#doc.xpath('//nav//ul//li/a', '//article//h2').each do |link|
+#  puts link.content
+#end
+
+# Or mix and match
+#doc.search('nav ul.menu li a', '//article//h2').each do |link|
+#  puts link.content
+#end
